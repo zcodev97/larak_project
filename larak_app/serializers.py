@@ -1,43 +1,26 @@
 from rest_framework import serializers
-
 from rest_framework.authtoken.models import Token
-
-from .models import Product,Order
-
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('username', 'email', 'password')
-        extra_kwargs = {'password': {'write_only': True}}
-
-    def create(self, validated_data):
-        user = User(email=validated_data['email'], username=validated_data['username'])
-        user.set_password(validated_data['password'])
-        user.save()
-        Token.objects.create(user=user)
-
-        return user
+from .models import Product, Order, Categorie
 
 
-class BookSerializer(serializers.ModelSerializer):
+class ProductSerializer(serializers.ModelSerializer):
     # author_username = serializers.CharField(source='author.username')
 
     class Meta:
-        model = Book
-
+        model = Product
         fields = "__all__"
 
 
-class AuthorSerializer(serializers.ModelSerializer):
+class CategorySerializer(serializers.ModelSerializer):
+    # author_username = serializers.CharField(source='author.username')
     class Meta:
-        model = Author
+        model = Categorie
         fields = "__all__"
 
 
-class RatingSerializer(serializers.ModelSerializer):
+class OrderSerializer(serializers.ModelSerializer):
     # author_username = serializers.CharField(source='author.username')
     # book_title = serializers.CharField(source='book.title')
     class Meta:
-        model = BooksRating
+        model = Order
         fields = "__all__"
