@@ -1,10 +1,10 @@
 from django.contrib import admin
 
-from .models import Product, Categorie, Order
+from .models import Product, Categorie, Order, Invoice
 
 
 @admin.register(Product)
-class Product(admin.ModelAdmin):
+class ProductAdmin(admin.ModelAdmin):
     list_display = ['id', 'image', 'title', 'description', 'category', 'amount', 'price', 'cost', 'created_at',
                     'created_by']
     fields = ('image', 'title', 'description', 'category', 'amount', 'price', 'cost', 'created_at')
@@ -16,10 +16,16 @@ class Product(admin.ModelAdmin):
 
 
 @admin.register(Categorie)
-class Categorie(admin.ModelAdmin):
+class CategoryAdmin(admin.ModelAdmin):
     list_display = ['id', 'title']
 
 
 @admin.register(Order)
-class Order(admin.ModelAdmin):
-    list_display = ['id', 'product', 'status', 'created_at']
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ['id', 'client', 'product', 'price', 'amount', 'status', 'created_at']
+
+
+@admin.register(Invoice)
+class InvoiceAdmin(admin.ModelAdmin):
+    list_display = ['id', 'invoice_id','client', 'product', 'price', 'amount', 'status', 'created_at']
+

@@ -6,7 +6,7 @@ from .models import SubUser,UserType
 
 @admin.register(User)
 class SubCustomer(BaseUserAdmin):
-    list_display = ["username", "email", "first_name", "last_name", 'phone','userType']
+    list_display = ["id","username", "email", "first_name", "last_name", 'phone','userType']
     fieldsets = (
         (None, {"fields": ("username", "password")}),
         (("Personal info"), {"fields": ("first_name", "last_name", "email",'phone','userType')}),
