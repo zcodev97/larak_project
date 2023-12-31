@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-
+from datetime import timedelta
 from pathlib import Path
 import os
 
@@ -146,3 +146,7 @@ AUTH_USER_MODEL = 'core.User'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=7),  # Set the access token lifetime to 7 days
+}
