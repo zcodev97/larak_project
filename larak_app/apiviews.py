@@ -4,7 +4,7 @@ from rest_framework import generics, status
 from django.contrib.auth import authenticate
 from django.shortcuts import get_object_or_404
 from core.serializers import CustomUserSerializer
-from .models import Order, Product, Categorie
+from .models import Order, Product, Category
 from .serializers import OrderSerializer, CategorySerializer, ProductSerializer
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -20,13 +20,13 @@ class UserInfoFromToken(APIView):
 
 
 class CategoriesList(generics.ListCreateAPIView):
-    queryset = Categorie.objects.all()
+    queryset = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
 
 
 class SingleCategory(generics.RetrieveDestroyAPIView):
-    queryset = Categorie.objects.all()
+    queryset = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
 

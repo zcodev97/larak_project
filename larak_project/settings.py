@@ -33,18 +33,18 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
-    'jazzmin',
+    # 'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
     'larak_app',
     'core',
-    'corsheaders',
 
 ]
 
@@ -82,14 +82,21 @@ WSGI_APPLICATION = 'larak_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'larak_db',
+#         'USER': 'position_log_user',
+#         'PASSWORD': 'admin',
+#         'HOST': 'localhost',  # Or the address of your PostgreSQL server
+#         'PORT': '5432',  # Default PostgreSQL port
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'larak_db',
-        'USER': 'position_log_user',
-        'PASSWORD': 'admin',
-        'HOST': 'localhost',  # Or the address of your PostgreSQL server
-        'PORT': '5432',  # Default PostgreSQL port
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 

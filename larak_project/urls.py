@@ -12,8 +12,11 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
+from django.conf.urls import include
 
-
+admin.site.site_header = "Larak Admin"
+admin.site.site_title = "Larak Admin Portal"
+admin.site.index_title = "Welcome to Larak Portal"
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
    def validate(self, attrs):
       data = super().validate(attrs)
@@ -34,11 +37,15 @@ urlpatterns = [
     path('products/', ProductsList.as_view(), name="All Products"),
     path('categories/', CategoriesList.as_view(), name="All Categories"),
     path('product/<uuid:pk>', ProductsList.as_view(), name="All Products"),
-    path('login/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
+
     path('user-info/', UserInfoFromToken.as_view(), name='user_info_from_token'),
     path('new_clients/', RecentRegisteredClients.as_view(), name='new clients list'),
 
+
+    path('login/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
+    # path('api-auth/', include('rest_framework.urls'))
 
 ]
 

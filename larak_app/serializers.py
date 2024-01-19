@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
-from .models import Product, Order, Categorie
+from .models import Product, Order, Category
 from core.models import User
 from core.serializers import CustomUserSerializer
 
@@ -10,7 +10,7 @@ from core.serializers import CustomUserSerializer
 class CategorySerializer(serializers.ModelSerializer):
     # author_username = serializers.CharField(source='author.username')
     class Meta:
-        model = Categorie
+        model = Category
         fields = "__all__"
 
 
