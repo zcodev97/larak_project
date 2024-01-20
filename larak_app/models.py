@@ -6,7 +6,7 @@ from django.utils import timezone
 
 class Category(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=255, unique=True)
 
     def __str__(self):
         return self.title
@@ -75,22 +75,24 @@ class Invoice(models.Model):
     def generate_invoice_id(self):
         # Customize the prefix or length as needed
         prefix = "INV"
-        unique_id = str(uuid.uuid4())[:8]  # Extract 6 characters from the UUID
+        unique_id = str(uuid.uuid4())[:8]  # Extract 8 characters from the UUID
         return f"{prefix}-{unique_id}"
 
 # {
-#   "orderStatus": {
-#     "clientOrderDate" :"2023-12-11 12:05 PM",
-#     "orderAccepted" : {
-#       "acceptedBy" : "Ahmed",
-#       "dateAccpeted":"2023-12-11 12:05 PM"
+#
+#     "1": {
+#         "client_location": "location",
+#         "description": "description"
 #     },
-#     "bikerPicked":{
-#       "bikerName" : "Ali",
-#       "date" : "2023-12-11 12:15 PM"
+#     "2": {
+#         "user": 1,
+#         "date": "currentDate"
 #     },
-#     "orderDelieverd" : {
-#         "date" :  "2023-12-11 12:45 PM"
+#     "3": {
+#         "biker": 12,
+#         "date": "currentDate"
+#     },
+#     "order_delievered": {
+#         "date": "currentDate"
 #     }
-#   }
 # }

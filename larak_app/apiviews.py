@@ -5,7 +5,8 @@ from django.contrib.auth import authenticate
 from django.shortcuts import get_object_or_404
 from core.serializers import CustomUserSerializer
 from .models import Order, Product, Category
-from .serializers import OrderSerializer, CategorySerializer, ProductSerializer
+from .serializers import (OrderSerializer, CategorySerializer, ProductSerializer, AddProductSerializer,
+                          ClientProductSerializer, ClientOrdersSerializer, AddOrderSerializer)
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from rest_framework_simplejwt.tokens import RefreshToken
 
@@ -37,7 +38,32 @@ class ProductsList(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
 
 
-class SingleProduct(generics.RetrieveDestroyAPIView):
+class ClientProductsListAPI(generics.ListCreateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ClientProductSerializer
+    permission_classes = [IsAuthenticated, DjangoModelPermissions]
+
+
+class AddProductAPI(generics.CreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    permission_classes = [IsAuthenticated, DjangoModelPermissions]
+
+
+class ClientOrdersListAPI(generics.ListCreateAPIView):
+    serializer_class = ClientOrdersSerializer
+    permission_classes = [IsAuthenticated, DjangoModelPermissions]
+
+    def get_queryset(self):
+        # Get the current user from the request
+        user = self.request.user
+        if user.is_superuser:
+            return Order.objects.all()
+
+        return Order.objects.filter(client=user)[:100]
+
+
+class AddOrderAPI(generics.CreateAPIView):
+    queryset = Order.objects.all()
+    serializer_class = AddOrderSerializer
     permission_classes = [IsAuthenticated, DjangoModelPermissions]

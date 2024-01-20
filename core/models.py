@@ -20,6 +20,7 @@ class User(AbstractUser):
     phone = models.CharField(max_length=255, unique=True)
     supervisor = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.PROTECT,related_name='user_supervisor')
     user_type = models.ForeignKey(UserType,on_delete=models.PROTECT)
+    locaiton = models.CharField(max_length=255,null=True)
 
 
 # class SubUser(models.Model):

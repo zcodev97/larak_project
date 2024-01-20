@@ -5,8 +5,6 @@ from core.models import User
 from core.serializers import CustomUserSerializer
 
 
-
-
 class CategorySerializer(serializers.ModelSerializer):
     # author_username = serializers.CharField(source='author.username')
     class Meta:
@@ -21,22 +19,39 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = "__all__"
 
+
 class ProductSerializer(serializers.ModelSerializer):
-    # author_username = serializers.CharField(source='author.username')
-    # category = CategorySerializer()
-    # user = CustomUserSerializer()
-    # def create(self, validated_data):
-    #     # Extract the specialty data
-    #     category_data = validated_data.pop('category', None)
-    #     category_data = validated_data.pop('created_by', None)
-    #     # Create or update the Specialty object
-    #     category_instance, created = Categorie.objects.get_or_create(**category_data)
-    #     # Set the specialty_instance on the InsideCoursesRecord instance
-    #     validated_data['category'] = category_instance
-    #     # Create the InsideCoursesRecord instance
-    #     instance = Categorie.objects.create(**validated_data)
-    #
-    #     return instance
+    category = serializers.CharField(source='category.title')
+
     class Meta:
         model = Product
+        fields = "__all__"
+
+
+class ClientProductSerializer(serializers.ModelSerializer):
+    category = serializers.CharField(source='category.title')
+
+    class Meta:
+        model = Product
+        fields = ['id', 'image', 'title', 'description', 'category', 'discount', 'price']
+
+
+class AddProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = "__all__"
+
+
+class ClientOrdersSerializer(serializers.ModelSerializer):
+    client = serializers.CharField(source='client.username')
+    product = serializers.CharField(source='product.title')
+
+    class Meta:
+        model = Order
+        fields = ['id', 'client', 'product', 'amount', 'price', 'created_at']
+
+
+class AddOrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
         fields = "__all__"
