@@ -19,4 +19,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'username', 'email', 'first_name', 'last_name', 'phone',
                   'user_type', 'supervisor', 'is_superuser',
-                  'date_joined']
+                  'date_joined','groups']
+
+#  2 manager
+#  5 admin

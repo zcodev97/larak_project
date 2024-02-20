@@ -67,3 +67,9 @@ class AddOrderAPI(generics.CreateAPIView):
     queryset = Order.objects.all()
     serializer_class = AddOrderSerializer
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
+
+
+class UpdateOrderAPI(generics.UpdateAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated, DjangoModelPermissions]

@@ -1,7 +1,9 @@
 from django.contrib import admin
 from django.urls import path
-from larak_app.apiviews import (ProductsList, CategoriesList, SingleCategory, UserInfoFromToken,
-                                AddProductAPI, ClientProductsListAPI,ClientOrdersListAPI,AddOrderAPI)
+from larak_app.apiviews import (ProductsList, CategoriesList, SingleCategory,
+                                UserInfoFromToken,
+                                AddProductAPI, ClientProductsListAPI,
+                                ClientOrdersListAPI,AddOrderAPI,UpdateOrderAPI)
 from django.conf import settings
 from django.conf.urls.static import static
 from core.serializers import CustomUserSerializer
@@ -45,6 +47,7 @@ urlpatterns = [
 
     path('client_orders/', ClientOrdersListAPI.as_view(), name="client orders list"),
     path('client_submit_order/', AddOrderAPI.as_view(), name="client submit new order"),
+    path('admin_update_order/<uuid:pk>', UpdateOrderAPI.as_view(), name="admin update order"),
 
     path('users/', UsersListAPI.as_view(), name='users list'),
     path('bikers/', BikersListAPI.as_view(), name='bikers list'),
