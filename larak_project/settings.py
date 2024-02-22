@@ -35,7 +35,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 # Application definition
 
 INSTALLED_APPS = [
-    # 'suit',
+
     'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -48,8 +48,16 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'larak_app',
     'core',
-
+    'drf_spectacular',
 ]
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Larak API Docs',
+    'DESCRIPTION': 'Larak Commerical',
+    'VERSION': '10.2.1',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -150,6 +158,8 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.DjangoModelPermissions',
     ),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+
 }
 
 AUTH_USER_MODEL = 'core.User'

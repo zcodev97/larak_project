@@ -33,7 +33,7 @@ class ClientProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ['id', 'image', 'title', 'description', 'category', 'discount', 'price']
+        fields = ['id', 'image', 'title', 'description', 'category', 'discount', 'price', 'on_home_screen','on_banner',]
 
 
 class AddProductSerializer(serializers.ModelSerializer):
@@ -44,11 +44,11 @@ class AddProductSerializer(serializers.ModelSerializer):
 
 class ClientOrdersSerializer(serializers.ModelSerializer):
     client = serializers.CharField(source='client.username')
-    product = serializers.CharField(source='product.title')
+
 
     class Meta:
         model = Order
-        fields = ['id', 'client', 'product', 'amount', 'price', 'status','created_at']
+        fields = ['id', 'client','cart','status','created_at']
 
 
 class AddOrderSerializer(serializers.ModelSerializer):

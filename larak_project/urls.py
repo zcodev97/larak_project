@@ -15,6 +15,9 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
+
+
 from django.conf.urls import include
 
 admin.site.site_header = "Larak Admin"
@@ -37,6 +40,13 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # api docs
+
+    # YOUR PATTERNS
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    # Optional UI:
+    path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
     # products api
     path('products/', ProductsList.as_view(), name="all Products"),
     path('client_products/', ClientProductsListAPI.as_view(), name="all Products"),

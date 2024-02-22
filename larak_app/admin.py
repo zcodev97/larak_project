@@ -1,3 +1,5 @@
+import json
+
 from django.contrib import admin
 from django.utils.html import format_html
 
@@ -28,13 +30,12 @@ class ProductAdmin(admin.ModelAdmin):
 
     list_display = [
         # 'id',
-
         'title',
         'image',
         'category', 'amount',
-        'formatted_price_dinar', 'formatted_cost_dinar', 'profit', 'discount', 'created_at',
+        'formatted_price_dinar', 'formatted_cost_dinar', 'profit', 'discount', 'created_at', 'on_home_screen','on_banner',
         'created_by']
-    fields = ('image', 'title', 'description', 'category', 'amount', 'price', 'cost', 'discount', 'on_home_screen')
+    fields = ('image', 'title', 'description', 'category', 'amount', 'price', 'cost', 'discount', 'on_home_screen','on_banner')
 
     def save_model(self, request, obj, form, change):
         if not change:  # Check if the object is being created
@@ -67,11 +68,28 @@ class OrderAdmin(admin.ModelAdmin):
     ordering = ('-created_at',)  # Default ordering
     list_display = [
         # 'id',
-        'client', 'cart', 'status', 'created_at']
+        'client', 'created_at']
 
-    def get_actions(self, request):
-        actions = super(OrderAdmin, self).get_actions(request)
-        if 'delete_selected' in actions:
-            del actions['delete_selected']
-        return actions
+    # def formatted_cart(self, obj):
+    #     # Format the JSON data with indentation for better readability
+    #     formatted_data = json.dumps(obj.cart, indent=2)
+    #     # Use format_html to safely render the formatted JSON in the Django admin
+    #     return format_html('<pre>{}</pre>', formatted_data)
+    #
+    # formatted_cart.short_description = 'Cart (Formatted)'  # Set the column header
 
+
+    # def formatted_status(self, obj):
+    #     # Format the JSON data with indentation for better readability
+    #     formatted_data = json.dumps(obj.status, indent=2)
+    #     # Use format_html to safely render the formatted JSON in the Django admin
+    #     return format_html('<pre>{}</pre>', formatted_data)
+    #
+    # formatted_status.short_description = 'Status (Formatted)'  # Set the column header
+
+    # def get_actions(self, request):
+    #     actions = super(OrderAdmin, self).get_actions(request)
+    #     if 'delete_selected' in actions:
+    #         del actions['delete_selected']
+    #     return actions
+    #

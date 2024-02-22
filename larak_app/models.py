@@ -8,7 +8,7 @@ class Category(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=255, unique=True)
     on_home_screen = models.BooleanField()
-    created_at = models.DateField()
+    created_at = models.DateField(auto_now=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
 
@@ -31,6 +31,7 @@ class Product(models.Model):
     profit = models.FloatField(editable=False)  # Add a profit column
     discount = models.FloatField(editable=True)  # Add a discount column
     on_home_screen = models.BooleanField()
+    on_banner = models.BooleanField()
     created_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
