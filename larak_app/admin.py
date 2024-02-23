@@ -68,6 +68,7 @@ class OrderAdmin(admin.ModelAdmin):
     ordering = ('-created_at',)  # Default ordering
     list_display = [
         # 'id',
+        'order_id',
         'client', 'created_at']
 
     # def formatted_cart(self, obj):

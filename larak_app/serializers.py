@@ -48,10 +48,10 @@ class ClientOrdersSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ['id', 'client','cart','status','created_at']
+        fields = ['id','order_id', 'client','cart','status','created_at']
 
 
 class AddOrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = "__all__"
+        fields = [ 'order_id', 'client','cart','status','created_at']

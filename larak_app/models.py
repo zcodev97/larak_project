@@ -22,7 +22,7 @@ class Category(models.Model):
 class Product(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     image = models.ImageField(upload_to='product_images/')  # Define ImageField
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=255,unique=True)
     description = models.CharField(max_length=512)
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
     amount = models.IntegerField()
@@ -46,10 +46,12 @@ class Product(models.Model):
 
 class Order(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    order_id = models.CharField(max_length=10, unique=True)
     client = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     cart = models.JSONField()
     status = models.JSONField()
     created_at = models.DateTimeField(auto_now=True)
+
 
 
     # def save(self, *args, **kwargs):
