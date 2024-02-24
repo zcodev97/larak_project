@@ -3,7 +3,11 @@ from django.urls import path
 from larak_app.apiviews import (ProductsList, CategoriesList, SingleCategory,
                                 UserInfoFromToken,
                                 AddProductAPI, ClientProductsListAPI,
-                                ClientOrdersListAPI,AddOrderAPI,UpdateOrderAPI)
+                                ClientOrdersListAPI,AddOrderAPI,UpdateOrderAPI,
+
+                                )
+
+from core.apiviews import (GetUserInfoAPI,AddUserInfoAPI)
 from django.conf import settings
 from django.conf.urls.static import static
 from core.serializers import CustomUserSerializer
@@ -49,7 +53,7 @@ urlpatterns = [
     path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
     # products api
     path('products/', ProductsList.as_view(), name="all Products"),
-    path('client_products/', ClientProductsListAPI.as_view(), name="all Products"),
+
     path('add_product/', AddProductAPI.as_view(), name="add product"),
     # categories api
     path('categories/', CategoriesList.as_view(), name="all Categories"),
@@ -57,15 +61,22 @@ urlpatterns = [
 
     path('client_orders/', ClientOrdersListAPI.as_view(), name="client orders list"),
     path('client_submit_order/', AddOrderAPI.as_view(), name="client submit new order"),
+    path('client_products/', ClientProductsListAPI.as_view(), name="all Products"),
+    path('add_user_info/', AddUserInfoAPI.as_view(), name="add user info API"),
+    path('get_user_info/', GetUserInfoAPI.as_view(), name="get user info API"),
+
     path('admin_update_order/<uuid:pk>', UpdateOrderAPI.as_view(), name="admin update order"),
 
     path('users/', UsersListAPI.as_view(), name='users list'),
     path('bikers/', BikersListAPI.as_view(), name='bikers list'),
-    path('add_user/', AddUserAPI.as_view(), name='add user'),
+
 
     path('user-info/', UserInfoFromToken.as_view(), name='user_info_from_token'),
 
     path('login/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('add_user/', AddUserAPI.as_view(), name='add user'),
+
+
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
     # path('users/', UsersList.as_view(), name="Users List"),
