@@ -22,11 +22,11 @@ class ProductAdmin(admin.ModelAdmin):
     ordering = ('-created_at',)  # Default ordering
     search_fields = ('title', 'category__title')  # Fields to search by
 
-    def get_actions(self, request):
-        actions = super(ProductAdmin, self).get_actions(request)
-        if 'delete_selected' in actions:
-            del actions['delete_selected']
-        return actions
+    # def get_actions(self, request):
+    #     actions = super(ProductAdmin, self).get_actions(request)
+    #     if 'delete_selected' in actions:
+    #         del actions['delete_selected']
+    #     return actions
 
     list_display = [
         # 'id',

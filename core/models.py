@@ -21,16 +21,32 @@ class User(AbstractUser):
     user_type = models.ForeignKey(UserType, on_delete=models.PROTECT)
 
 
+    # {
+    #     "user_type" : "user_type",
+    #     "supervisor" : object,
+    #     "user_info" : {
+    #         "first_name" :  "first_name" ,
+    #         "last_name": "last_name",
+    #         "location": "location",
+    #         "lon": "lon",
+    #         "lat": "lat",
+    #     }
+    # }
+    class Meta:
+        verbose_name_plural = 'Users'
 class UserInfo(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User,  primary_key=True, on_delete=models.PROTECT, blank=False)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
-    locaiton = models.CharField(max_length=255, null=False)
+    location = models.CharField(max_length=255, null=False)
     lon = models.CharField(max_length=255, null=True)
     lat = models.CharField(max_length=255, null=True)
 
     def __str__(self):
         return self.first_name + " " + self.last_name
+
+    class Meta:
+        verbose_name_plural = 'Users Info'
 
 # class SubUser(models.Model):
 #     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

@@ -2,7 +2,16 @@ from django.contrib import admin
 from .models import User
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import  UserType,UserInfo
+from django.contrib.auth.models import Group
+from django.contrib.auth.admin import GroupAdmin
+admin.site.unregister(Group)
 
+
+class CustomGroupAdmin(GroupAdmin):
+    list_display = ('id', 'name')  # Add 'id' to the list_display to show it in the admin
+
+# Register the custom Group admin
+admin.site.register(Group, CustomGroupAdmin)
 
 @admin.register(User)
 class SubCustomer(BaseUserAdmin):
@@ -34,6 +43,9 @@ class SubCustomer(BaseUserAdmin):
             },
         ),
     )
+    list_per_page = 5  # Items per page
+    ordering = ('-username',)  # Default ordering
+    search_fields = ('username',)  # Fields to search by
 
 
 @admin.register(UserType)
@@ -42,7 +54,10 @@ class UserTypeAdmin(admin.ModelAdmin):
 
 @admin.register(UserInfo)
 class UserInfoAdmin(admin.ModelAdmin):
-    list_display =  ['user_id', 'first_name', 'last_name', 'lon', 'lat']
+    list_per_page = 5  # Items per page
+    ordering = ('-user',)  # Default ordering
+    search_fields = ('user',)  # Fields to search by
+    list_display =  ['user', 'first_name', 'last_name', 'lon', 'lat']
 
 
 

@@ -3,6 +3,8 @@ from rest_framework.response import Response
 from rest_framework import generics, status
 from django.contrib.auth import authenticate
 from django.shortcuts import get_object_or_404
+
+from core.models import User
 from core.serializers import CustomUserSerializer
 from .models import Order, Product, Category
 from .serializers import (OrderSerializer, CategorySerializer, ProductSerializer, AddProductSerializer,
@@ -61,6 +63,16 @@ class ClientOrdersListAPI(generics.ListCreateAPIView):
             return Order.objects.all()
 
         return Order.objects.filter(client=user)[:100]
+
+
+class EmployeeOrderListAPI(generics.ListCreateAPIView):
+    serializer_class = ClientOrdersSerializer
+    permission_classes = [IsAuthenticated, DjangoModelPermissions]
+
+    def get_queryset(self):
+        username = self.kwargs['client']
+        user = User.objects.get(username=username)
+        return Order.objects.filter(client=user)
 
 
 class AddOrderAPI(generics.CreateAPIView):

@@ -3,15 +3,17 @@ from django.urls import path
 from larak_app.apiviews import (ProductsList, CategoriesList, SingleCategory,
                                 UserInfoFromToken,
                                 AddProductAPI, ClientProductsListAPI,
-                                ClientOrdersListAPI,AddOrderAPI,UpdateOrderAPI,
-
-                                )
+                                ClientOrdersListAPI,AddOrderAPI,
+                                EmployeeOrderListAPI,
+                                UpdateOrderAPI,)
 
 from core.apiviews import (GetUserInfoAPI,AddUserInfoAPI)
 from django.conf import settings
 from django.conf.urls.static import static
 from core.serializers import CustomUserSerializer
-from core.apiviews import UsersListAPI, BikersListAPI, AddUserAPI
+from core.apiviews import (UsersListAPI, BikersListAPI,
+                           AddUserAPI,UsersUnderManagerAPI,
+                           AddEmployeeAPI,UpdatePasswordAPI)
 from rest_framework.authtoken import views
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -63,18 +65,23 @@ urlpatterns = [
     path('client_submit_order/', AddOrderAPI.as_view(), name="client submit new order"),
     path('client_products/', ClientProductsListAPI.as_view(), name="all Products"),
     path('add_user_info/', AddUserInfoAPI.as_view(), name="add user info API"),
-    path('get_user_info/', GetUserInfoAPI.as_view(), name="get user info API"),
+    # path('get_user_info/', GetUserInfoAPI.as_view(), name="get user info API"),
 
     path('admin_update_order/<uuid:pk>', UpdateOrderAPI.as_view(), name="admin update order"),
+    path('get_user_info/<uuid:pk>', GetUserInfoAPI.as_view(), name="admin update order"),
+
+    path('employee_orders/<str:client>', EmployeeOrderListAPI.as_view(), name="employee order list api"),
 
     path('users/', UsersListAPI.as_view(), name='users list'),
     path('bikers/', BikersListAPI.as_view(), name='bikers list'),
-
+    path('users_under_managers/', UsersUnderManagerAPI.as_view(), name='employees list'),
+    path('update_password/', UpdatePasswordAPI.as_view(), name='update_password'),
 
     path('user-info/', UserInfoFromToken.as_view(), name='user_info_from_token'),
 
     path('login/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('add_user/', AddUserAPI.as_view(), name='add user'),
+    path('add_employee/', AddEmployeeAPI.as_view(), name='add user'),
 
 
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
