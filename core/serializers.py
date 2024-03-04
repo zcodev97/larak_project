@@ -24,7 +24,8 @@ class AddCustomUserSerializer(serializers.ModelSerializer):
             username=validated_data['username'],
             password=validated_data['password'],
             user_type=validated_data.get('user_type'),
-            supervisor=validated_data.get('supervisor')
+            supervisor=validated_data.get('supervisor'),
+            is_active=False
         )
         user.groups.set([2])  # Set the default group
         return user
