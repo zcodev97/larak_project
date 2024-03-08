@@ -32,6 +32,7 @@ class Product(models.Model):
     discount = models.FloatField(editable=True)  # Add a discount column
     on_home_screen = models.BooleanField()
     on_banner = models.BooleanField()
+    active = models.BooleanField()
     created_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 

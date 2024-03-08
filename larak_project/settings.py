@@ -165,23 +165,24 @@ WSGI_APPLICATION = 'larak_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'larak_db',
-#         'USER': 'position_log_user',
-#         'PASSWORD': 'admin',
-#         'HOST': 'localhost',  # Or the address of your PostgreSQL server
-#         'PORT': '5432',  # Default PostgreSQL port
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'larak',
+        'USER': 'postgres',
+        'PASSWORD': 'arabsmeet.com',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -230,7 +231,14 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissions',
     ),
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
-
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '25/day',
+        'user': '2000/day'
+    }
 }
 
 AUTH_USER_MODEL = 'core.User'

@@ -13,11 +13,16 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
-    # author_username = serializers.CharField(source='author.username')
-    # book_title = serializers.CharField(source='book.title')
     class Meta:
         model = Order
         fields = "__all__"
+
+
+class OrderUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = ['status']
+
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -33,7 +38,7 @@ class ClientProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ['id', 'image', 'title', 'description', 'category', 'discount', 'price', 'on_home_screen','on_banner',]
+        fields = ['id', 'image', 'title', 'description', 'category', 'discount', 'price', 'on_home_screen','on_banner','active']
 
 
 class AddProductSerializer(serializers.ModelSerializer):
