@@ -67,7 +67,7 @@ urlpatterns = [
     path('add_user_info/', AddUserInfoAPI.as_view(), name="add user info API"),
     # path('get_user_info/', GetUserInfoAPI.as_view(), name="get user info API"),
 
-    path('admin_update_order/<uuid:pk>', UpdateOrderAPI.as_view(), name="admin update order"),
+    path('update_order/<uuid:pk>', UpdateOrderAPI.as_view(), name="admin update order"),
     path('get_user_info/<uuid:pk>', GetUserInfoAPI.as_view(), name="admin update order"),
 
     path('employee_orders/<str:client>', EmployeeOrderListAPI.as_view(), name="employee order list api"),

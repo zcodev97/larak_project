@@ -33,9 +33,9 @@ class ProductAdmin(admin.ModelAdmin):
         'title',
         'image',
         'category', 'amount',
-        'formatted_price_dinar', 'formatted_cost_dinar', 'profit', 'discount', 'created_at', 'on_home_screen','on_banner',
+        'formatted_price_dinar', 'formatted_cost_dinar', 'profit', 'discount', 'created_at', 'on_home_screen','on_banner','active',
         'created_by']
-    fields = ('image', 'title', 'description', 'category', 'amount', 'price', 'cost', 'discount', 'on_home_screen','on_banner')
+    fields = ('image', 'title', 'description', 'category', 'amount', 'price', 'cost', 'discount', 'on_home_screen','on_banner','active')
 
     def save_model(self, request, obj, form, change):
         if not change:  # Check if the object is being created

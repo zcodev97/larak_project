@@ -165,15 +165,23 @@ WSGI_APPLICATION = 'larak_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 87d96478ea5c57cef62220b45aef63bd8d53e4c5
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'larak',
         'USER': 'postgres',
         'PASSWORD': 'arabsmeet.com',
+<<<<<<< HEAD
         'HOST': 'localhost', 
         'PORT': '5432',  
+=======
+        'HOST': 'localhost',
+        'PORT': '5432',
+>>>>>>> 87d96478ea5c57cef62220b45aef63bd8d53e4c5
     }
 }
 
@@ -232,7 +240,14 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissions',
     ),
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
-
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '25/day',
+        'user': '2000/day'
+    }
 }
 
 AUTH_USER_MODEL = 'core.User'

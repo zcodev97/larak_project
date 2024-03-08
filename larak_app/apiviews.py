@@ -8,7 +8,7 @@ from core.models import User
 from core.serializers import CustomUserSerializer
 from .models import Order, Product, Category
 from .serializers import (OrderSerializer, CategorySerializer, ProductSerializer, AddProductSerializer,
-                          ClientProductSerializer, ClientOrdersSerializer, AddOrderSerializer)
+                          ClientProductSerializer, ClientOrdersSerializer, AddOrderSerializer,OrderUpdateSerializer)
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from rest_framework_simplejwt.tokens import RefreshToken
 
@@ -83,5 +83,5 @@ class AddOrderAPI(generics.CreateAPIView):
 
 class UpdateOrderAPI(generics.UpdateAPIView):
     queryset = Order.objects.all()
-    serializer_class = OrderSerializer
+    serializer_class = OrderUpdateSerializer
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
