@@ -95,4 +95,5 @@ class UsersUnderManagerAPI(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
 
     def get_queryset(self):
-        return User.objects.filter(user_type__title__in=['user'])
+        manager = self.request.user
+        return User.objects.filter(supervisor=manager, user_type__title__in=['user'])
