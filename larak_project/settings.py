@@ -19,7 +19,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # static
-STATIC_URL = '/static/'
+STATIC_URL = '/staticfiles/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
@@ -34,14 +34,15 @@ SECRET_KEY = '^4z_ibrvn-4^_%+#r$n!cr2uz9o&oa**@1l10&@!$7m%@wzv*p'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["localhost" , "172.26.7.158",'18.158.82.59','app.larak.com.iq']
 CORS_ORIGIN_ALLOW_ALL = True
-
+SECURE_SSL_REDIRECT = True
+CSRF_COOKIE_SECURE = True
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Application definition
 
-INSTALLED_APPS = [
-
+INSTALLED_APPS = [ 
     'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -144,6 +145,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'larak_project.urls'
 
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -165,23 +167,16 @@ WSGI_APPLICATION = 'larak_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 87d96478ea5c57cef62220b45aef63bd8d53e4c5
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'larak',
         'USER': 'postgres',
         'PASSWORD': 'arabsmeet.com',
-<<<<<<< HEAD
         'HOST': 'localhost', 
         'PORT': '5432',  
-=======
         'HOST': 'localhost',
         'PORT': '5432',
->>>>>>> 87d96478ea5c57cef62220b45aef63bd8d53e4c5
     }
 }
 

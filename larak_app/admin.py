@@ -47,7 +47,9 @@ class ProductAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     list_display = [
         # 'id',
-        'title', 'on_home_screen', 'created_at', 'created_by']
+        'title', 
+               'image',
+        'on_home_screen', 'created_at', 'created_by']
 
     list_per_page = 5  # Items per page
     ordering = ('-created_at',)  # Default ordering

@@ -14,8 +14,6 @@ div.inline-related {
 }
 
 
-
-
 /** Fix bug of adminLTE, since django is using th headers in middle of table **/
 .card-body.p-0 .table thead > tr > th:first-of-type,
 .card-body.p-0 .table thead > tr > td:first-of-type,

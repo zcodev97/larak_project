@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import generics, status
 from django.contrib.auth import authenticate
 from django.shortcuts import get_object_or_404
-
+from django.db.models import Q
 from core.models import User
 from core.serializers import CustomUserSerializer
 from .models import Order, Product, Category
@@ -85,3 +85,26 @@ class UpdateOrderAPI(generics.UpdateAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderUpdateSerializer
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
+
+
+class BikerOrdersView(generics.ListAPIView):
+    serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated, DjangoModelPermissions]
+
+    def get_queryset(self):
+        biker_id = self.request.user.id  # Assuming the user ID is the biker ID
+        return Order.objects.filter(
+            Q(status__contains=[{"biker_status": {"biker": str(biker_id), "delivered": True}}])
+        )
+
+class BikerCurrentOrdersView(generics.ListAPIView):
+    serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated, DjangoModelPermissions]
+
+    def get_queryset(self):
+        biker_id = self.request.user.id  # Assuming the user ID is the biker ID
+        return Order.objects.filter(
+            Q(status__contains=[{"biker_status": {"biker": str(biker_id), "delivered": False}}])
+        )
+
+

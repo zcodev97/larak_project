@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from larak_app.apiviews import (ProductsList, CategoriesList, SingleCategory,
+from larak_app.apiviews import (BikerCurrentOrdersView,BikerOrdersView, ProductsList, CategoriesList, SingleCategory,
                                 UserInfoFromToken,
                                 AddProductAPI, ClientProductsListAPI,
                                 ClientOrdersListAPI,AddOrderAPI,
@@ -85,6 +85,14 @@ urlpatterns = [
 
 
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
+
+
+
+    # biker apis
+
+    path('api/biker-orders/', BikerOrdersView.as_view(), name='biker-orders'),
+    path('api/biker-current-orders/', BikerCurrentOrdersView.as_view(), name='biker-orders'),
 
     # path('users/', UsersList.as_view(), name="Users List"),
     # path('users/<int:pk>', UserDetails.as_view(), name="Users List"),
