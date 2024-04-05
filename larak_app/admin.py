@@ -33,9 +33,12 @@ class ProductAdmin(admin.ModelAdmin):
         'title',
         'image',
         'category', 'amount',
-        'formatted_price_dinar', 'formatted_cost_dinar', 'profit', 'discount', 'created_at', 'on_home_screen','on_banner','active',
+        'formatted_price_dinar', 'formatted_cost_dinar', 'profit', 'discount', 'created_at', 'on_home_screen',
+        'on_banner', 'active',
         'created_by']
-    fields = ('image', 'title', 'description', 'category', 'amount', 'price', 'cost', 'discount', 'on_home_screen','on_banner','active')
+    fields = (
+    'image', 'title', 'description', 'category', 'amount', 'price', 'cost', 'discount', 'on_home_screen', 'on_banner',
+    'active')
 
     def save_model(self, request, obj, form, change):
         if not change:  # Check if the object is being created
@@ -47,7 +50,9 @@ class ProductAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     list_display = [
         # 'id',
-        'title', 'on_home_screen', 'created_at', 'created_by']
+        'title',
+        'image',
+        'on_home_screen', 'created_at', 'created_by']
 
     list_per_page = 5  # Items per page
     ordering = ('-created_at',)  # Default ordering
@@ -78,7 +83,6 @@ class OrderAdmin(admin.ModelAdmin):
     #     return format_html('<pre>{}</pre>', formatted_data)
     #
     # formatted_cart.short_description = 'Cart (Formatted)'  # Set the column header
-
 
     # def formatted_status(self, obj):
     #     # Format the JSON data with indentation for better readability

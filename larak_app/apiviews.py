@@ -3,14 +3,15 @@ from rest_framework.response import Response
 from rest_framework import generics, status
 from django.contrib.auth import authenticate
 from django.shortcuts import get_object_or_404
-
+from django.db.models import Q
 from core.models import User
 from core.serializers import CustomUserSerializer
 from .models import Order, Product, Category
 from .serializers import (OrderSerializer, CategorySerializer, ProductSerializer, AddProductSerializer,
-                          ClientProductSerializer, ClientOrdersSerializer, AddOrderSerializer,OrderUpdateSerializer)
+                          ClientProductSerializer, ClientOrdersSerializer, AddOrderSerializer, OrderUpdateSerializer)
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.pagination import PageNumberPagination
 
 
 class UserInfoFromToken(APIView):
@@ -52,7 +53,7 @@ class AddProductAPI(generics.CreateAPIView):
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
 
 
-class ClientOrdersListAPI(generics.ListCreateAPIView):
+class OrdersListAPI(generics.ListCreateAPIView):
     serializer_class = ClientOrdersSerializer
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
 
@@ -63,6 +64,32 @@ class ClientOrdersListAPI(generics.ListCreateAPIView):
             return Order.objects.all()
 
         return Order.objects.filter(client=user)[:100]
+
+
+class AdminOrdersListAPI(generics.ListCreateAPIView):
+    serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated, DjangoModelPermissions]
+
+    def get_queryset(self):
+        biker_username = self.request.user.username
+        return Order.objects.filter(
+            Q(
+                status__contains={"biker": {"delivered": True}},
+            )
+        )
+
+
+class AdminCurrentOrdersView(generics.ListAPIView):
+    serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated, DjangoModelPermissions]
+
+    def get_queryset(self):
+        biker_username = self.request.user.username
+        return Order.objects.filter(
+            Q(
+                status__contains={"biker": {"delivered": False}},
+            )
+        )
 
 
 class EmployeeOrderListAPI(generics.ListCreateAPIView):
@@ -85,3 +112,31 @@ class UpdateOrderAPI(generics.UpdateAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderUpdateSerializer
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
+
+
+# biker apis
+
+class BikerOrdersView(generics.ListAPIView):
+    serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated, DjangoModelPermissions]
+
+    def get_queryset(self):
+        biker_username = self.request.user.username
+        return Order.objects.filter(
+            Q(
+                status__contains={"biker": {"username": str(biker_username), "delivered": True}},
+            )
+        )
+
+
+class BikerCurrentOrdersView(generics.ListAPIView):
+    serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated, DjangoModelPermissions]
+
+    def get_queryset(self):
+        biker_username = self.request.user.username
+        return Order.objects.filter(
+            Q(
+                status__contains={"biker": {"username": str(biker_username), "delivered": False}},
+            )
+        )

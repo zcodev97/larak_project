@@ -15,10 +15,16 @@ admin.site.register(Group, CustomGroupAdmin)
 
 @admin.register(User)
 class SubCustomer(BaseUserAdmin):
-    list_display = ["id","username",'supervisor','user_type','date_joined']
+    list_display = ["id","username",
+                    'supervisor',
+                    'user_type',
+                    'date_joined']
     fieldsets = (
         (None, {"fields": ("username", "password")}),
-        (("Personal info"), {"fields": ('supervisor','user_type')}),
+        (("Personal info"), {"fields": (
+                                        'supervisor',
+                                        'user_type'
+                                        )}),
         (
             ("Permissions"),
             {
@@ -39,7 +45,10 @@ class SubCustomer(BaseUserAdmin):
             {
                 "classes": ("wide",),
                 "fields": (
-                    "username", "password1", "password2", 'supervisor','user_type'),
+                    "username", "password1", "password2",
+                    'supervisor',
+                    'user_type'
+                ),
             },
         ),
     )

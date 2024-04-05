@@ -6,6 +6,7 @@ from django.utils import timezone
 
 class Category(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    image = models.ImageField(upload_to='categories_images/')  # Define ImageField
     title = models.CharField(max_length=255, unique=True)
     on_home_screen = models.BooleanField()
     created_at = models.DateField(auto_now=True)
