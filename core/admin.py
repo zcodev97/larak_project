@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import User
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import  UserType,UserInfo
+from .models import  UserType
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import GroupAdmin
 admin.site.unregister(Group)
@@ -61,12 +61,12 @@ class SubCustomer(BaseUserAdmin):
 class UserTypeAdmin(admin.ModelAdmin):
     list_display = ['id', 'title']
 
-@admin.register(UserInfo)
-class UserInfoAdmin(admin.ModelAdmin):
-    list_per_page = 5  # Items per page
-    ordering = ('-user',)  # Default ordering
-    search_fields = ('user',)  # Fields to search by
-    list_display =  ['user', 'first_name', 'last_name', 'lon', 'lat']
-
+# @admin.register(UserInfo)
+# class UserInfoAdmin(admin.ModelAdmin):
+#     list_per_page = 5  # Items per page
+#     ordering = ('-user',)  # Default ordering
+#     search_fields = ('user',)  # Fields to search by
+#     list_display =  ['user', 'first_name', 'last_name', 'lon', 'lat']
+#
 
 

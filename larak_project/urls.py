@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from larak_app.apiviews import (ProductsList, CategoriesList, SingleCategory,
-                                UserInfoFromToken,
+
                                 AddProductAPI, ClientProductsListAPI,
                                 OrdersListAPI, AddOrderAPI,
                                 EmployeeOrderListAPI,
@@ -89,7 +89,7 @@ urlpatterns = [
     # update password for users under manager
     path('update_password/', UpdatePasswordAPI.as_view(), name='update_password'),
     # get user info
-    path('user-info/', UserInfoFromToken.as_view(), name='user_info_from_token'),
+
     path('get_user_info/<uuid:pk>', GetUserInfoAPI.as_view(), name="admin update order"),
     path('add_user_info/', AddUserInfoAPI.as_view(), name="add user info API"),
 

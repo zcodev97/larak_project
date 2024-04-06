@@ -14,13 +14,13 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.pagination import PageNumberPagination
 
 
-class UserInfoFromToken(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        # Assuming you have a serializer for your user mouserdel
-        user_serializer = CustomUserSerializer(request.user).data
-        return Response({'user': user_serializer}, status=status.HTTP_200_OK)
+# class UserInfoFromToken(APIView):
+#     permission_classes = [IsAuthenticated]
+#
+#     def get(self, request):
+#         # Assuming you have a serializer for your user mouserdel
+#         user_serializer = CustomUserSerializer(request.user).data
+#         return Response({'user': user_serializer}, status=status.HTTP_200_OK)
 
 
 class CategoriesList(generics.ListCreateAPIView):

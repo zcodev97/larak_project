@@ -136,10 +136,10 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'easyaudit.middleware.easyaudit.EasyAuditMiddleware',
 ]
-X_FRAME_OPTIONS = 'Allow'
+# X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 ROOT_URLCONF = 'larak_project.urls'
 

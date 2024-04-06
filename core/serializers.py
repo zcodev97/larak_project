@@ -3,7 +3,7 @@ from abc import ABC
 
 from django.conf import settings
 from rest_framework import serializers
-from .models import User, UserInfo
+from .models import User
 from django.contrib.auth.password_validation import validate_password
 
 
@@ -31,9 +31,7 @@ class AddCustomUserSerializer(serializers.ModelSerializer):
         return user
 
 
-#
-#
-class UpdatePasswordSerializer(serializers.Serializer):
+class UpdatePasswordSerializer(serializers.Serializer, ABC):
     new_password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
 
     def update(self, instance, validated_data):
@@ -74,19 +72,3 @@ class CustomUserSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'user_type', 'supervisor', 'is_superuser',
                   'date_joined']
 
-
-class GetUserInfoSerializer(serializers.ModelSerializer):
-    user = serializers.CharField(source='user.username')
-
-    class Meta:
-        model = UserInfo
-        fields = ['user', 'first_name', 'last_name', 'location', 'lon', 'lat']
-
-
-class AddUserInfoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserInfo
-        fields = ['user', 'first_name', 'last_name', 'location', 'lon', 'lat']
-
-#  2 manager
-#  5 admin
