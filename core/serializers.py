@@ -1,6 +1,5 @@
 import datetime
 from abc import ABC
-
 from django.conf import settings
 from rest_framework import serializers
 from .models import User
@@ -31,7 +30,7 @@ class AddCustomUserSerializer(serializers.ModelSerializer):
         return user
 
 
-class UpdatePasswordSerializer(serializers.Serializer, ABC):
+class UpdatePasswordSerializer(serializers.Serializer):
     new_password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
 
     def update(self, instance, validated_data):

@@ -1,7 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from larak_app.apiviews import (ProductsList, CategoriesList, SingleCategory,
-
+from larak_app.apiviews import (ProductsList, CategoriesList,
                                 AddProductAPI, ClientProductsListAPI,
                                 OrdersListAPI, AddOrderAPI,
                                 EmployeeOrderListAPI,
@@ -10,13 +9,13 @@ from larak_app.apiviews import (ProductsList, CategoriesList, SingleCategory,
                                 AdminOrdersListAPI,
                                 AdminCurrentOrdersView)
 
-from core.apiviews import (GetUserInfoAPI,AddUserInfoAPI)
+# from core.apiviews import (GetUserInfoAPI, AddUserInfoAPI)
 from django.conf import settings
 from django.conf.urls.static import static
 from core.serializers import CustomUserSerializer
 from core.apiviews import (UsersListAPI, BikersListAPI,
-                           AddUserAPI,UsersUnderManagerAPI,
-                           AddEmployeeAPI,UpdatePasswordAPI)
+                           AddUserAPI, UsersUnderManagerAPI,
+                           AddEmployeeAPI, UpdatePasswordAPI)
 from rest_framework.authtoken import views
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -25,7 +24,6 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
-
 
 from django.conf.urls import include
 
@@ -54,17 +52,13 @@ urlpatterns = [
     # YOUR PATTERNS
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
 
-
     # Optional UI:
     path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 
-
     # products api
     path('products/', ProductsList.as_view(), name="all Products"),
     path('add_product/', AddProductAPI.as_view(), name="add product"),
-
-
 
     path('admin_orders/', AdminOrdersListAPI.as_view(), name="admin orders "),
     path('admin_current_orders/', AdminCurrentOrdersView.as_view(), name="admin orders "),
@@ -90,8 +84,8 @@ urlpatterns = [
     path('update_password/', UpdatePasswordAPI.as_view(), name='update_password'),
     # get user info
 
-    path('get_user_info/<uuid:pk>', GetUserInfoAPI.as_view(), name="admin update order"),
-    path('add_user_info/', AddUserInfoAPI.as_view(), name="add user info API"),
+    # path('get_user_info/<uuid:pk>', GetUserInfoAPI.as_view(), name="admin update order"),
+    # path('add_user_info/', AddUserInfoAPI.as_view(), name="add user info API"),
 
     # login api
     path('login/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
@@ -100,11 +94,8 @@ urlpatterns = [
     path('add_user/', AddUserAPI.as_view(), name='add user'),
     path('add_employee/', AddEmployeeAPI.as_view(), name='add user'),
 
-
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     # biker apis
-
-
 
     # biker apis
     path('api/biker-orders/', BikerOrdersView.as_view(), name='biker-orders'),

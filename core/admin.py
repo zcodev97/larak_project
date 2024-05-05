@@ -1,32 +1,47 @@
 from django.contrib import admin
 from .models import User
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import  UserType
+from .models import UserType
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import GroupAdmin
+
 admin.site.unregister(Group)
 
 
 class CustomGroupAdmin(GroupAdmin):
     list_display = ('id', 'name')  # Add 'id' to the list_display to show it in the admin
 
+
 # Register the custom Group admin
 admin.site.register(Group, CustomGroupAdmin)
 
+
 @admin.register(User)
 class SubCustomer(BaseUserAdmin):
-    list_display = ["id","username",
-                    'supervisor',
-                    'user_type',
-                    'date_joined']
+    list_display = [
+        # "id",
+        "username",
+        'supervisor',
+        'user_type',
+        'first_name',
+        'last_name',
+        'location',
+        'lon',
+        'lat',
+        'date_joined']
     fieldsets = (
         (None, {"fields": ("username", "password")}),
-        (("Personal info"), {"fields": (
-                                        'supervisor',
-                                        'user_type'
-                                        )}),
+        ("Personal info", {"fields": (
+            'supervisor',
+            'user_type',
+            'first_name',
+            'last_name',
+            'location',
+            'lon',
+            'lat',
+        )}),
         (
-            ("Permissions"),
+            "Permissions",
             {
                 "fields": (
                     "is_active",
@@ -37,7 +52,7 @@ class SubCustomer(BaseUserAdmin):
                 ),
             },
         ),
-        (("Important dates"), {"fields": ("last_login", "date_joined")}),
+        ("Important dates", {"fields": ("last_login", "date_joined")}),
     )
     add_fieldsets = (
         (
@@ -47,7 +62,12 @@ class SubCustomer(BaseUserAdmin):
                 "fields": (
                     "username", "password1", "password2",
                     'supervisor',
-                    'user_type'
+                    'user_type',
+                    'first_name',
+                    'last_name',
+                    'location',
+                    'lon',
+                    'lat',
                 ),
             },
         ),
@@ -68,5 +88,3 @@ class UserTypeAdmin(admin.ModelAdmin):
 #     search_fields = ('user',)  # Fields to search by
 #     list_display =  ['user', 'first_name', 'last_name', 'lon', 'lat']
 #
-
-
