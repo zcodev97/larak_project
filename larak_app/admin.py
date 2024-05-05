@@ -3,7 +3,7 @@ import json
 from django.contrib import admin
 from django.utils.html import format_html
 
-from .models import Product, Category, Order
+from .models import Product, Category, Order, EmployeeOrders
 
 
 @admin.register(Product)
@@ -37,8 +37,9 @@ class ProductAdmin(admin.ModelAdmin):
         'on_banner', 'active',
         'created_by']
     fields = (
-    'image', 'title', 'description', 'category', 'amount', 'price', 'cost', 'discount', 'on_home_screen', 'on_banner',
-    'active')
+        'image', 'title', 'description', 'category', 'amount', 'price', 'cost', 'discount', 'on_home_screen',
+        'on_banner',
+        'active')
 
     def save_model(self, request, obj, form, change):
         if not change:  # Check if the object is being created
@@ -75,6 +76,13 @@ class OrderAdmin(admin.ModelAdmin):
         # 'id',
         'order_id',
         'client', 'created_at']
+
+
+@admin.register(EmployeeOrders)
+class EmployeeOrdersAdmin(admin.ModelAdmin):
+    list_per_page = 5  # Items per page
+    ordering = ('-created_at',)  # Default ordering
+    list_display = ['employee', 'manager', 'created_at']
 
     # def formatted_cart(self, obj):
     #     # Format the JSON data with indentation for better readability

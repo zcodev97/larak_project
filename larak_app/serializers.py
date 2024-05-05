@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
-from .models import Product, Order, Category
+from .models import Product, Order, Category, EmployeeOrders
 from core.models import User
 from core.serializers import CustomUserSerializer
 
@@ -10,6 +10,18 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = "__all__"
+
+
+class GetEmployeeOrdersSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EmployeeOrders
+        fields = "__all__"
+
+
+class AddEmployeeOrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EmployeeOrders
+        fields = ['employee', 'manager', 'cart', 'status']
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -24,7 +36,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ['order_id','client_name','created_at','status','cart']
+        fields = ['order_id', 'client_name', 'created_at', 'status', 'cart']
 
 
 class OrderUpdateSerializer(serializers.ModelSerializer):

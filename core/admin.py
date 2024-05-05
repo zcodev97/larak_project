@@ -19,7 +19,7 @@ admin.site.register(Group, CustomGroupAdmin)
 @admin.register(User)
 class SubCustomer(BaseUserAdmin):
     list_display = [
-        # "id",
+        "id",
         "username",
         'supervisor',
         'user_type',
@@ -28,7 +28,7 @@ class SubCustomer(BaseUserAdmin):
         'location',
         'lon',
         'lat',
-        'date_joined']
+        'date_joined','is_active']
     fieldsets = (
         (None, {"fields": ("username", "password")}),
         ("Personal info", {"fields": (

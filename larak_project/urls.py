@@ -15,7 +15,7 @@ from django.conf.urls.static import static
 from core.serializers import CustomUserSerializer
 from core.apiviews import (UsersListAPI, BikersListAPI,
                            AddUserAPI, UsersUnderManagerAPI,
-                           AddEmployeeAPI, UpdatePasswordAPI)
+                           AddEmployeeAPI, UpdatePasswordAPI, GetUserInfoAPI, AddUserInfoAPI)
 from rest_framework.authtoken import views
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -84,8 +84,8 @@ urlpatterns = [
     path('update_password/', UpdatePasswordAPI.as_view(), name='update_password'),
     # get user info
 
-    # path('get_user_info/<uuid:pk>', GetUserInfoAPI.as_view(), name="admin update order"),
-    # path('add_user_info/', AddUserInfoAPI.as_view(), name="add user info API"),
+    path('get_user_info/', GetUserInfoAPI.as_view(), name="admin update order"),
+    path('add_user_info/<uuid:pk>', AddUserInfoAPI.as_view(), name="add user info API"),
 
     # login api
     path('login/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),

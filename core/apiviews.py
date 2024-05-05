@@ -3,7 +3,8 @@ import datetime
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import generics, status
-from core.serializers import (CustomUserSerializer, AddCustomUserSerializer,AddEmployeeSerializer, UpdatePasswordSerializer)
+from core.serializers import (CustomUserSerializer, AddCustomUserSerializer, AddEmployeeSerializer,
+                              UpdatePasswordSerializer, AddUserInfoSerializer)
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions, AllowAny
 from django.conf import settings
 from .models import User
@@ -37,6 +38,7 @@ class AddEmployeeAPI(generics.CreateAPIView):
     serializer_class = AddEmployeeSerializer
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
 
+
 #
 # class AddUserInfoAPI(generics.CreateAPIView):
 #     queryset = UserInfo.objects.all()
@@ -57,19 +59,26 @@ class AddEmployeeAPI(generics.CreateAPIView):
 #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 #
 #
-# class GetUserInfoAPI(generics.ListCreateAPIView):
-#     queryset = UserInfo.objects.all()
-#     serializer_class = GetUserInfoSerializer
-#     permission_classes = [IsAuthenticated, DjangoModelPermissions]
-#
-#     def get(self, request, *args, **kwargs):
-#         id = request.user
-#         try:
-#             user_info = UserInfo.objects.get(user_id=id)
-#             serializer = self.get_serializer(user_info)
-#             return Response(serializer.data)
-#         except UserInfo.DoesNotExist:
-#             return Response({'error': 'User information not found'}, status=status.HTTP_404_NOT_FOUND)
+class GetUserInfoAPI(generics.ListCreateAPIView):
+    serializer_class = CustomUserSerializer
+    permission_classes = [IsAuthenticated, DjangoModelPermissions]
+
+    def get_queryset(self):
+        return User.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        try:
+            user = User.objects.get(id=request.user.id)
+            serializer = self.get_serializer(user)
+            return Response(serializer.data)
+        except User.DoesNotExist:
+            return Response({'error': 'User information not found'}, status=status.HTTP_404_NOT_FOUND)
+
+
+class AddUserInfoAPI(generics.UpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = AddUserInfoSerializer
+    permission_classes = [IsAuthenticated, DjangoModelPermissions]
 
 
 class UsersListAPI(generics.ListCreateAPIView):

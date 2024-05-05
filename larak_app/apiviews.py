@@ -6,9 +6,14 @@ from django.shortcuts import get_object_or_404
 from django.db.models import Q
 from core.models import User
 from core.serializers import CustomUserSerializer
-from .models import Order, Product, Category
-from .serializers import (OrderSerializer, CategorySerializer, ProductSerializer, AddProductSerializer,
-                          ClientProductSerializer, ClientOrdersSerializer, AddOrderSerializer, OrderUpdateSerializer)
+from .models import Order, Product, Category, EmployeeOrders
+from .serializers import (OrderSerializer, CategorySerializer,
+                          ProductSerializer, AddProductSerializer,
+                          ClientProductSerializer,
+                          ClientOrdersSerializer, AddOrderSerializer,
+                          OrderUpdateSerializer, AddEmployeeOrderSerializer,
+                          GetEmployeeOrdersSerializer
+                          )
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.pagination import PageNumberPagination
@@ -108,6 +113,7 @@ class AddOrderAPI(generics.CreateAPIView):
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
 
 
+
 class UpdateOrderAPI(generics.UpdateAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderUpdateSerializer
@@ -140,3 +146,18 @@ class BikerCurrentOrdersView(generics.ListAPIView):
                 status__contains={"biker": {"username": str(biker_username), "delivered": False}},
             )
         )
+
+
+class AddEmployeeOrderAPI(generics.CreateAPIView):
+    queryset = EmployeeOrders.objects.all()
+    serializer_class = AddEmployeeOrderSerializer
+    permission_classes = [IsAuthenticated, DjangoModelPermissions]
+
+
+class GetEmployeeOrderAPI(generics.CreateAPIView):
+    queryset = EmployeeOrders.objects.all()
+    serializer_class = GetEmployeeOrdersSerializer
+    permission_classes = [IsAuthenticated, DjangoModelPermissions]
+
+
+

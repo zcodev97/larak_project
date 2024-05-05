@@ -56,7 +56,8 @@ class AddEmployeeSerializer(serializers.ModelSerializer):
             username=validated_data['username'],
             password=validated_data['password'],
             user_type=validated_data.get('user_type'),
-            supervisor=validated_data.get('supervisor')
+            supervisor=validated_data.get('supervisor'),
+            is_active=False
         )
         user.groups.set([1])  # Set the default group
         return user
@@ -68,6 +69,13 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'user_type', 'supervisor', 'is_superuser',
+        fields = ['id', 'username',
+                  'first_name', 'last_name', 'location', 'lon', 'lat',
+                  'user_type', 'supervisor', 'is_superuser',
                   'date_joined']
 
+
+class AddUserInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'first_name', 'last_name', 'location', 'lon', 'lat']
