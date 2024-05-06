@@ -7,7 +7,10 @@ from larak_app.apiviews import (ProductsList, CategoriesList,
                                 UpdateOrderAPI, BikerOrdersView,
                                 BikerCurrentOrdersView,
                                 AdminOrdersListAPI,
-                                AdminCurrentOrdersView)
+                                AdminCurrentOrdersView,
+                                AddEmployeeOrderAPI,GetEmployeeOrdersAPI,
+                                GetEmployeeOrdersForSupervisorAPI
+                                )
 
 # from core.apiviews import (GetUserInfoAPI, AddUserInfoAPI)
 from django.conf import settings
@@ -15,7 +18,8 @@ from django.conf.urls.static import static
 from core.serializers import CustomUserSerializer
 from core.apiviews import (UsersListAPI, BikersListAPI,
                            AddUserAPI, UsersUnderManagerAPI,
-                           AddEmployeeAPI, UpdatePasswordAPI, GetUserInfoAPI, AddUserInfoAPI)
+                           AddEmployeeAPI, UpdatePasswordAPI,
+                           GetUserInfoAPI, AddUserInfoAPI )
 from rest_framework.authtoken import views
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -93,6 +97,10 @@ urlpatterns = [
     # add user and emp
     path('add_user/', AddUserAPI.as_view(), name='add user'),
     path('add_employee/', AddEmployeeAPI.as_view(), name='add user'),
+    path('add_employee_order/', AddEmployeeOrderAPI.as_view(), name='add user'),
+    path('get_employee_orders/', GetEmployeeOrdersAPI.as_view(), name='add user'),
+    path('get_employee_orders_for_supervisor/<int:employee>', GetEmployeeOrdersForSupervisorAPI.as_view(),
+         name='get orders for specific employee '),
 
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     # biker apis

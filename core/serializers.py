@@ -65,7 +65,7 @@ class AddEmployeeSerializer(serializers.ModelSerializer):
 
 class CustomUserSerializer(serializers.ModelSerializer):
     user_type = serializers.CharField(source='user_type.title')
-    supervisor = serializers.CharField(source='supervisor.username')
+    supervisor = serializers.CharField(source='supervisor.id')
 
     class Meta:
         model = User

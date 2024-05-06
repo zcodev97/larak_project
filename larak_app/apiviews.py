@@ -113,7 +113,6 @@ class AddOrderAPI(generics.CreateAPIView):
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
 
 
-
 class UpdateOrderAPI(generics.UpdateAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderUpdateSerializer
@@ -154,10 +153,22 @@ class AddEmployeeOrderAPI(generics.CreateAPIView):
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
 
 
-class GetEmployeeOrderAPI(generics.CreateAPIView):
-    queryset = EmployeeOrders.objects.all()
+class GetEmployeeOrdersAPI(generics.ListAPIView):
     serializer_class = GetEmployeeOrdersSerializer
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
 
+    def get_queryset(self):
+        # Get the current user from the request
+        user = self.request.user
+
+        return EmployeeOrders.objects.filter(employee=user).order_by('-created_at')[:100]
 
 
+class GetEmployeeOrdersForSupervisorAPI(generics.ListAPIView):
+    serializer_class = GetEmployeeOrdersSerializer
+    permission_classes = [IsAuthenticated, DjangoModelPermissions]
+
+    def get_queryset(self):
+        user = self.request.user
+        employee = self.kwargs['employee']
+        return EmployeeOrders.objects.filter(employee__username=employee,manager__username=user)
