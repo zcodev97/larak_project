@@ -8,8 +8,8 @@ from larak_app.apiviews import (ProductsList, CategoriesList,
                                 BikerCurrentOrdersView,
                                 AdminOrdersListAPI,
                                 AdminCurrentOrdersView,
-                                AddEmployeeOrderAPI,GetEmployeeOrdersAPI,
-                                GetEmployeeOrdersForSupervisorAPI
+                                AddEmployeeOrderAPI, GetEmployeeOrdersAPI,
+                                GetEmployeeOrdersForSupervisorAPI, UpdateEmployeeOrderAPI
                                 )
 
 # from core.apiviews import (GetUserInfoAPI, AddUserInfoAPI)
@@ -97,6 +97,10 @@ urlpatterns = [
     # add user and emp
     path('add_user/', AddUserAPI.as_view(), name='add user'),
     path('add_employee/', AddEmployeeAPI.as_view(), name='add user'),
+
+
+
+    path('update_employee_order/<uuid:pk>', UpdateEmployeeOrderAPI.as_view(), name='update employee order status api '),
     path('add_employee_order/', AddEmployeeOrderAPI.as_view(), name='add user'),
     path('get_employee_orders/', GetEmployeeOrdersAPI.as_view(), name='add user'),
     path('get_employee_orders_for_supervisor/<int:employee>', GetEmployeeOrdersForSupervisorAPI.as_view(),

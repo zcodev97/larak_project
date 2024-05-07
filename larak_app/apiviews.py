@@ -12,7 +12,7 @@ from .serializers import (OrderSerializer, CategorySerializer,
                           ClientProductSerializer,
                           ClientOrdersSerializer, AddOrderSerializer,
                           OrderUpdateSerializer, AddEmployeeOrderSerializer,
-                          GetEmployeeOrdersSerializer
+                          GetEmployeeOrdersSerializer, UpdateEmployeeOrderSerializer
                           )
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -153,14 +153,18 @@ class AddEmployeeOrderAPI(generics.CreateAPIView):
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
 
 
+class UpdateEmployeeOrderAPI(generics.UpdateAPIView):
+    queryset = EmployeeOrders.objects.all()
+    serializer_class = UpdateEmployeeOrderSerializer
+    permission_classes = [IsAuthenticated, DjangoModelPermissions]
+
+
 class GetEmployeeOrdersAPI(generics.ListAPIView):
     serializer_class = GetEmployeeOrdersSerializer
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
 
     def get_queryset(self):
-        # Get the current user from the request
         user = self.request.user
-
         return EmployeeOrders.objects.filter(employee=user).order_by('-created_at')[:100]
 
 
@@ -171,4 +175,4 @@ class GetEmployeeOrdersForSupervisorAPI(generics.ListAPIView):
     def get_queryset(self):
         user = self.request.user
         employee = self.kwargs['employee']
-        return EmployeeOrders.objects.filter(employee__username=employee,manager__username=user)
+        return EmployeeOrders.objects.filter(employee__username=employee, manager__username=user)

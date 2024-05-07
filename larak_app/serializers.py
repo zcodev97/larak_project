@@ -24,6 +24,10 @@ class AddEmployeeOrderSerializer(serializers.ModelSerializer):
         fields = ['employee', 'manager', 'cart', 'status']
 
 
+class UpdateEmployeeOrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EmployeeOrders
+        fields = ['status']
 class OrderSerializer(serializers.ModelSerializer):
     client_name = serializers.SerializerMethodField()
 
