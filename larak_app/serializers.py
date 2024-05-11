@@ -34,13 +34,13 @@ class OrderSerializer(serializers.ModelSerializer):
     def get_client_name(self, obj):
         # Check if account_manager is set, handle potential None values
         if obj.client:
-            return obj.client.username + obj.client.first_name  # Access the username attribute
+            return obj.client.username  # Access the username attribute
         else:
             return None  # Return None or a default value if account_manager is missing
 
     class Meta:
         model = Order
-        fields = ['order_id', 'client_name', 'created_at', 'status', 'cart']
+        fields = ['id','order_id', 'client_name', 'created_at', 'status', 'cart']
 
 
 class OrderUpdateSerializer(serializers.ModelSerializer):

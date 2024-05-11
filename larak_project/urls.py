@@ -9,7 +9,7 @@ from larak_app.apiviews import (ProductsList, CategoriesList,
                                 AdminOrdersListAPI,
                                 AdminCurrentOrdersView,
                                 AddEmployeeOrderAPI, GetEmployeeOrdersAPI,
-                                GetEmployeeOrdersForSupervisorAPI, UpdateEmployeeOrderAPI
+                                GetEmployeeOrdersForSupervisorAPI, UpdateEmployeeOrderAPI, CompletedOrdersView
                                 )
 
 # from core.apiviews import (GetUserInfoAPI, AddUserInfoAPI)
@@ -66,6 +66,7 @@ urlpatterns = [
 
     path('admin_orders/', AdminOrdersListAPI.as_view(), name="admin orders "),
     path('admin_current_orders/', AdminCurrentOrdersView.as_view(), name="admin orders "),
+    path('completed_orders/', CompletedOrdersView.as_view(), name="admin orders "),
 
     # categories api
     path('categories/', CategoriesList.as_view(), name="all Categories"),
@@ -103,7 +104,7 @@ urlpatterns = [
     path('update_employee_order/<uuid:pk>', UpdateEmployeeOrderAPI.as_view(), name='update employee order status api '),
     path('add_employee_order/', AddEmployeeOrderAPI.as_view(), name='add user'),
     path('get_employee_orders/', GetEmployeeOrdersAPI.as_view(), name='add user'),
-    path('get_employee_orders_for_supervisor/<int:employee>', GetEmployeeOrdersForSupervisorAPI.as_view(),
+    path('get_employee_orders_for_supervisor/', GetEmployeeOrdersForSupervisorAPI.as_view(),
          name='get orders for specific employee '),
 
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),

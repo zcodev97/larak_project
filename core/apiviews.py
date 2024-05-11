@@ -1,5 +1,6 @@
 import datetime
 
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import generics, status
@@ -59,20 +60,12 @@ class AddEmployeeAPI(generics.CreateAPIView):
 #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 #
 #
-class GetUserInfoAPI(generics.ListCreateAPIView):
+class GetUserInfoAPI(generics.ListAPIView):
     serializer_class = CustomUserSerializer
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
 
     def get_queryset(self):
-        return User.objects.all()
-
-    def get(self, request, *args, **kwargs):
-        try:
-            user = User.objects.get(id=request.user.id)
-            serializer = self.get_serializer(user)
-            return Response(serializer.data)
-        except User.DoesNotExist:
-            return Response({'error': 'User information not found'}, status=status.HTTP_404_NOT_FOUND)
+        return User.objects.filter(id=self.request.user.id).first()
 
 
 class AddUserInfoAPI(generics.UpdateAPIView):
@@ -92,6 +85,8 @@ class UsersListAPI(generics.ListCreateAPIView):
 class BikersListAPI(generics.ListCreateAPIView):
     serializer_class = CustomUserSerializer
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
+    paginator = PageNumberPagination()
+    paginator.page_size = None
 
     def get_queryset(self):
         return User.objects.filter(user_type__title__in=['biker'])

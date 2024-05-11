@@ -68,7 +68,7 @@ class OrdersListAPI(generics.ListCreateAPIView):
         if user.is_superuser:
             return Order.objects.all()
 
-        return Order.objects.filter(client=user)[:100]
+        return Order.objects.filter(client=user).order_by('created_at')
 
 
 class AdminOrdersListAPI(generics.ListCreateAPIView):
@@ -78,10 +78,10 @@ class AdminOrdersListAPI(generics.ListCreateAPIView):
     def get_queryset(self):
         biker_username = self.request.user.username
         return Order.objects.filter(
-            Q(
-                status__contains={"biker": {"delivered": True}},
-            )
-        )
+            Q(status__contains={"biker_status": {"title": "delivered"}}) |
+            Q(status__contains={"biker_status": {"title": "rejected"}}) | Q(
+                status__contains={"biker_status": {"title": "accepted"}}),
+        ).order_by('-created_at')
 
 
 class AdminCurrentOrdersView(generics.ListAPIView):
@@ -91,8 +91,9 @@ class AdminCurrentOrdersView(generics.ListAPIView):
     def get_queryset(self):
         biker_username = self.request.user.username
         return Order.objects.filter(
+
             Q(
-                status__contains={"biker": {"delivered": False}},
+                status__contains={"biker_status": None},
             )
         )
 
@@ -128,10 +129,8 @@ class BikerOrdersView(generics.ListAPIView):
     def get_queryset(self):
         biker_username = self.request.user.username
         return Order.objects.filter(
-            Q(
-                status__contains={"biker": {"username": str(biker_username), "delivered": True}},
-            )
-        )
+            Q(status__contains={"biker_status": {"biker": biker_username},"arrived_status": True}) | Q(status__contains={"biker_status": {"biker": biker_username},"arrived_status": False})
+        ).order_by('-created_at')
 
 
 class BikerCurrentOrdersView(generics.ListAPIView):
@@ -141,10 +140,19 @@ class BikerCurrentOrdersView(generics.ListAPIView):
     def get_queryset(self):
         biker_username = self.request.user.username
         return Order.objects.filter(
-            Q(
-                status__contains={"biker": {"username": str(biker_username), "delivered": False}},
-            )
-        )
+            Q(status__contains={"biker_status": {"biker": biker_username, }, "arrived_status": None}, )
+        ).order_by('-created_at')
+
+
+class CompletedOrdersView(generics.ListAPIView):
+    serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated, DjangoModelPermissions]
+
+    def get_queryset(self):
+        biker_username = self.request.user.username
+        return Order.objects.filter(
+            Q(status__contains={"arrived_status": True}, )
+        ).order_by('-created_at')
 
 
 class AddEmployeeOrderAPI(generics.CreateAPIView):
@@ -165,7 +173,11 @@ class GetEmployeeOrdersAPI(generics.ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        return EmployeeOrders.objects.filter(employee=user).order_by('-created_at')[:100]
+        return EmployeeOrders.objects.filter(
+            # Q(status__contains={"manager_action": {"title": None}}) |
+            # Q(status__contains={"manager_action": {"title": "accepted"}}),
+            employee=user
+        ).order_by('created_at')
 
 
 class GetEmployeeOrdersForSupervisorAPI(generics.ListAPIView):
@@ -174,5 +186,8 @@ class GetEmployeeOrdersForSupervisorAPI(generics.ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        employee = self.kwargs['employee']
-        return EmployeeOrders.objects.filter(employee__username=employee, manager__username=user)
+        employee = self.request.query_params.get('employee')
+        return EmployeeOrders.objects.filter(
+            Q(
+                status__contains={"manager_action": None},
+            ), employee__username=employee, manager__username=user)

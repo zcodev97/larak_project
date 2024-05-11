@@ -250,3 +250,5 @@ CORS_ALLOWED_ORIGINS = [
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=7),  # Set the access token lifetime to 7 days
 }
+
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 100000000  # higher than the count of fields
