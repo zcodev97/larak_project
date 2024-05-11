@@ -170,7 +170,7 @@ DATABASES = {
         'NAME': 'larak',
         'USER': 'postgres',
         'PASSWORD': 'admin',
-        'HOST': '172.26.7.158',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
