@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import generics, status
 from core.serializers import (CustomUserSerializer, AddCustomUserSerializer, AddEmployeeSerializer,
-                              UpdatePasswordSerializer, AddUserInfoSerializer)
+                              UpdatePasswordSerializer, AddUserInfoSerializer, CustomClientsSerializer)
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions, AllowAny
 from django.conf import settings
 from .models import User
@@ -40,26 +40,6 @@ class AddEmployeeAPI(generics.CreateAPIView):
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
 
 
-#
-# class AddUserInfoAPI(generics.CreateAPIView):
-#     queryset = UserInfo.objects.all()
-#     serializer_class = AddUserInfoSerializer
-#     permission_classes = [IsAuthenticated, DjangoModelPermissions]
-#
-#     def post(self, request, *args, **kwargs):
-#         user = request.user
-#         try:
-#             user_info = UserInfo.objects.get(user=user)
-#             serializer = self.get_serializer(user_info, data=request.data)
-#         except UserInfo.DoesNotExist:
-#             serializer = self.get_serializer(data=request.data)
-#
-#         if serializer.is_valid():
-#             serializer.save(user=user)
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-#
-#
 class GetUserInfoAPI(generics.ListAPIView):
     serializer_class = CustomUserSerializer
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
@@ -99,3 +79,39 @@ class UsersUnderManagerAPI(generics.ListCreateAPIView):
     def get_queryset(self):
         manager = self.request.user
         return User.objects.filter(supervisor=manager, user_type__title__in=['user'])
+
+
+class UsersUnderManagersAPI(generics.ListCreateAPIView):
+    serializer_class = CustomClientsSerializer
+    permission_classes = [IsAuthenticated, DjangoModelPermissions]
+
+    def get_queryset(self):
+        manager = self.request.user
+        return User.objects.filter(user_type__title__in=['user'])
+
+
+class UsersManagersAPI(generics.ListCreateAPIView):
+    serializer_class = CustomUserSerializer
+    permission_classes = [IsAuthenticated, DjangoModelPermissions]
+
+    def get_queryset(self):
+        manager = self.request.user
+        return User.objects.filter(user_type__title__in=['manager'])
+
+
+class UsersBikersAPI(generics.ListCreateAPIView):
+    serializer_class = CustomUserSerializer
+    permission_classes = [IsAuthenticated, DjangoModelPermissions]
+
+    def get_queryset(self):
+        manager = self.request.user
+        return User.objects.filter(user_type__title__in=['biker'])
+
+
+class SystemUsersAPI(generics.ListCreateAPIView):
+    serializer_class = CustomClientsSerializer
+    permission_classes = [IsAuthenticated, DjangoModelPermissions]
+
+    def get_queryset(self):
+        excluded_types = ['biker', 'manager', 'user']  # User types to exclude
+        return User.objects.exclude(user_type__title__in=excluded_types)

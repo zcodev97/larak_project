@@ -16,10 +16,10 @@ from larak_app.apiviews import (ProductsList, CategoriesList,
 from django.conf import settings
 from django.conf.urls.static import static
 from core.serializers import CustomUserSerializer
-from core.apiviews import (UsersListAPI, BikersListAPI,
-                           AddUserAPI, UsersUnderManagerAPI,
+from core.apiviews import (SystemUsersAPI, UsersBikersAPI, UsersListAPI, BikersListAPI,
+                           AddUserAPI, UsersManagersAPI, UsersUnderManagerAPI,
                            AddEmployeeAPI, UpdatePasswordAPI,
-                           GetUserInfoAPI, AddUserInfoAPI )
+                           GetUserInfoAPI, AddUserInfoAPI, UsersUnderManagersAPI)
 from rest_framework.authtoken import views
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -56,16 +56,20 @@ urlpatterns = [
     # YOUR PATTERNS
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
 
+
     # Optional UI:
-    path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
-    path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
+    path('api/schema/swagger-ui/',
+         SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('api/schema/redoc/',
+         SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 
     # products api
     path('products/', ProductsList.as_view(), name="all Products"),
     path('add_product/', AddProductAPI.as_view(), name="add product"),
-
+    # admin products api
     path('admin_orders/', AdminOrdersListAPI.as_view(), name="admin orders "),
-    path('admin_current_orders/', AdminCurrentOrdersView.as_view(), name="admin orders "),
+    path('admin_current_orders/',
+         AdminCurrentOrdersView.as_view(), name="admin orders "),
     path('completed_orders/', CompletedOrdersView.as_view(), name="admin orders "),
 
     # categories api
@@ -73,24 +77,40 @@ urlpatterns = [
     path('add_category/', CategoriesList.as_view(), name="add category"),
 
     path('client_orders/', OrdersListAPI.as_view(), name="client orders list"),
-    path('update_order/<uuid:pk>', UpdateOrderAPI.as_view(), name="admin update order"),
-    path('client_submit_order/', AddOrderAPI.as_view(), name="client submit new order"),
+    path('update_order/<uuid:pk>', UpdateOrderAPI.as_view(),
+         name="admin update order"),
+    path('client_submit_order/', AddOrderAPI.as_view(),
+         name="client submit new order"),
     path('client_products/', ClientProductsListAPI.as_view(), name="all Products"),
 
     # path('get_user_info/', GetUserInfoAPI.as_view(), name="get user info API"),
 
-    path('employee_orders/<str:client>', EmployeeOrderListAPI.as_view(), name="employee order list api"),
+    path('employee_orders/<str:client>', EmployeeOrderListAPI.as_view(),
+         name="employee order list api"),
     # clients
     path('users/', UsersListAPI.as_view(), name='users list'),
     path('bikers/', BikersListAPI.as_view(), name='bikers list'),
     # user under manager
-    path('users_under_managers/', UsersUnderManagerAPI.as_view(), name='employees list'),
+    path('users_under_managers/',
+         UsersUnderManagerAPI.as_view(), name='employees list'),
     # update password for users under manager
     path('update_password/', UpdatePasswordAPI.as_view(), name='update_password'),
     # get user info
 
     path('get_user_info/', GetUserInfoAPI.as_view(), name="admin update order"),
-    path('add_user_info/<uuid:pk>', AddUserInfoAPI.as_view(), name="add user info API"),
+    path('add_user_info/<uuid:pk>',
+         AddUserInfoAPI.as_view(), name="add user info API"),
+
+
+    # get clients managers
+    path('users/get-clients-managers/',
+         UsersManagersAPI.as_view(), name="add user info API"),
+    path('users/get-clients-managers-employee/',
+         UsersUnderManagersAPI.as_view(), name="users under managers info API"),
+    path('users/get-bikers/',
+         UsersBikersAPI.as_view(), name="users under managers info API"),
+    path('users/get-system-users/',
+         SystemUsersAPI.as_view(), name="add user info API"),
 
     # login api
     path('login/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
@@ -101,7 +121,8 @@ urlpatterns = [
 
 
 
-    path('update_employee_order/<uuid:pk>', UpdateEmployeeOrderAPI.as_view(), name='update employee order status api '),
+    path('update_employee_order/<uuid:pk>', UpdateEmployeeOrderAPI.as_view(),
+         name='update employee order status api '),
     path('add_employee_order/', AddEmployeeOrderAPI.as_view(), name='add user'),
     path('get_employee_orders/', GetEmployeeOrdersAPI.as_view(), name='add user'),
     path('get_employee_orders_for_supervisor/', GetEmployeeOrdersForSupervisorAPI.as_view(),
@@ -112,7 +133,8 @@ urlpatterns = [
 
     # biker apis
     path('api/biker-orders/', BikerOrdersView.as_view(), name='biker-orders'),
-    path('api/biker-current-orders/', BikerCurrentOrdersView.as_view(), name='biker-orders'),
+    path('api/biker-current-orders/',
+         BikerCurrentOrdersView.as_view(), name='biker-orders'),
 
     # path('users/', UsersList.as_view(), name="Users List"),
     # path('users/<int:pk>', UserDetails.as_view(), name="Users List"),
@@ -122,4 +144,5 @@ urlpatterns = [
 ]
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)

@@ -9,7 +9,8 @@ from django.contrib.auth.password_validation import validate_password
 class AddCustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'password', 'user_type', 'supervisor', 'groups']
+        fields = ['id', 'username', 'password',
+                  'user_type', 'supervisor', 'groups']
         extra_kwargs = {
             'password': {'write_only': True}
         }
@@ -31,7 +32,8 @@ class AddCustomUserSerializer(serializers.ModelSerializer):
 
 
 class UpdatePasswordSerializer(serializers.Serializer):
-    new_password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
+    new_password = serializers.CharField(
+        write_only=True, required=True, validators=[validate_password])
 
     def update(self, instance, validated_data):
         instance.set_password(validated_data['new_password'])
@@ -42,7 +44,8 @@ class UpdatePasswordSerializer(serializers.Serializer):
 class AddEmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'password', 'user_type', 'supervisor', 'groups']
+        fields = ['id', 'username', 'password',
+                  'user_type', 'supervisor', 'groups']
         extra_kwargs = {
             'password': {'write_only': True}
         }
@@ -66,6 +69,20 @@ class AddEmployeeSerializer(serializers.ModelSerializer):
 class CustomUserSerializer(serializers.ModelSerializer):
     user_type = serializers.CharField(source='user_type.title')
     supervisor = serializers.CharField(source='supervisor.id')
+
+    class Meta:
+        model = User
+        fields = ['id', 'username',
+                  'first_name', 'last_name', 'location', 'lon', 'lat',
+                  'user_type', 'supervisor', 'is_superuser',
+                  'date_joined']
+
+
+class CustomClientsSerializer(serializers.ModelSerializer):
+    user_type = serializers.CharField(source='user_type.title')
+    supervisor = serializers.CharField(source='supervisor.username')
+    supervisor_first_name = serializers.CharField(
+        source='supervisor.first_name')
 
     class Meta:
         model = User

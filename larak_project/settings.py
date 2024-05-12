@@ -158,7 +158,7 @@ TEMPLATES = [
         },
     },
 ]
-
+#  5ed1804dc3a481bfb6c86a903031c0b0db96ff32
 WSGI_APPLICATION = 'larak_project.wsgi.application'
 
 # Database
