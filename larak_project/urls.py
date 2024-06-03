@@ -51,13 +51,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # api docs
-
-    # YOUR PATTERNS
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
-
-
-    # Optional UI:
     path('api/schema/swagger-ui/',
          SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('api/schema/redoc/',
@@ -83,7 +77,7 @@ urlpatterns = [
          name="client submit new order"),
     path('client_products/', ClientProductsListAPI.as_view(), name="all Products"),
 
-    # path('get_user_info/', GetUserInfoAPI.as_view(), name="get user info API"),
+    path('get_user_info/', GetUserInfoAPI.as_view(), name="get user info API"),
 
     path('employee_orders/<str:client>', EmployeeOrderListAPI.as_view(),
          name="employee order list api"),
@@ -97,7 +91,7 @@ urlpatterns = [
     path('update_password/', UpdatePasswordAPI.as_view(), name='update_password'),
     # get user info
 
-    path('get_user_info/', GetUserInfoAPI.as_view(), name="admin update order"),
+#     path('get_user_info/', GetUserInfoAPI.as_view(), name="get user info to check current login session"),
     path('add_user_info/<uuid:pk>',
          AddUserInfoAPI.as_view(), name="add user info API"),
 

@@ -41,11 +41,11 @@ class AddEmployeeAPI(generics.CreateAPIView):
 
 
 class GetUserInfoAPI(generics.ListAPIView):
-    serializer_class = CustomUserSerializer
+    serializer_class = CustomClientsSerializer
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
 
     def get_queryset(self):
-        return User.objects.filter(id=self.request.user.id).first()
+        return User.objects.filter(id=self.request.user.id)
 
 
 class AddUserInfoAPI(generics.UpdateAPIView):

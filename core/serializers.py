@@ -67,14 +67,16 @@ class AddEmployeeSerializer(serializers.ModelSerializer):
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
-    user_type = serializers.CharField(source='user_type.title')
-    supervisor = serializers.CharField(source='supervisor.id')
+    user_type = serializers.CharField( source='user_type.title', read_only=True)
+    supervisor = serializers.CharField(source='supervisor.username', read_only=True)
 
     class Meta:
         model = User
         fields = ['id', 'username',
-                  'first_name', 'last_name', 'location', 'lon', 'lat',
-                  'user_type', 'supervisor', 'is_superuser',
+                  'first_name', 'last_name',
+                    'location', 'lon', 'lat',
+                  'user_type', 'supervisor',
+                    'is_superuser',
                   'date_joined']
 
 
@@ -88,7 +90,7 @@ class CustomClientsSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'username',
                   'first_name', 'last_name', 'location', 'lon', 'lat',
-                  'user_type', 'supervisor', 'is_superuser',
+                  'user_type', 'supervisor', 'is_superuser','supervisor_first_name',
                   'date_joined']
 
 
