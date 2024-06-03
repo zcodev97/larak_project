@@ -1,4 +1,4 @@
- 
+
 from datetime import timedelta
 from pathlib import Path
 import os
@@ -18,14 +18,14 @@ SECRET_KEY = '^4z_ibrvn-4^_%+#r$n!cr2uz9o&oa**@1l10&@!$7m%@wzv*p'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-#CORS_ALLOWED_ORIGINS = ["http://a.larak.com.iq:8000"]
-ALLOWED_HOSTS = ["0.0.0.0","a.larak.com.iq"]
+# CORS_ALLOWED_ORIGINS = ["http://a.larak.com.iq:8000"]
+ALLOWED_HOSTS = ["0.0.0.0", "a.larak.com.iq", 'localhost']
 CORS_ALLOW_ALL_ORIGINS = True
 
 CSRF_TRUSTED_ORIGINS = [
-                        'https://0.0.0.0:8001',
-                        'https://a.larak.com.iq:8001',
-                        'https://localhost:8001']
+    'https://0.0.0.0:8001',
+    'https://a.larak.com.iq:8001',
+    'https://localhost:8001']
 
 
 INSTALLED_APPS = [
@@ -112,7 +112,7 @@ SPECTACULAR_SETTINGS = {
     'DESCRIPTION': 'Larak Commerical',
     'VERSION': '10.2.1',
     'SERVE_INCLUDE_SCHEMA': False,
-    # 'SWAGGER_UI_DIST': 'SIDECAR',   
+    # 'SWAGGER_UI_DIST': 'SIDECAR',
     # 'SWAGGER_UI_FAVICON_HREF': 'SIDECAR',
     # 'REDOC_DIST': 'SIDECAR',
 }
@@ -128,7 +128,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'easyaudit.middleware.easyaudit.EasyAuditMiddleware',
-] 
+]
 
 ROOT_URLCONF = 'larak_project.urls'
 
@@ -153,14 +153,22 @@ WSGI_APPLICATION = 'larak_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'larak_db',
+#         'USER': 'larak_user',
+#         'PASSWORD': 'arabsmeet.com5248',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'larak_db',
-        'USER': 'larak_user',
-        'PASSWORD': 'arabsmeet.com5248',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR + "db.sqlite3",
     }
 }
 
@@ -199,9 +207,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 
- 
-
-
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
@@ -223,14 +228,15 @@ REST_FRAMEWORK = {
         'user': '2000/day'
     },
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 15   
+    'PAGE_SIZE': 15
 }
 
 AUTH_USER_MODEL = 'core.User'
 
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=7),  # Set the access token lifetime to 7 days
+    # Set the access token lifetime to 7 days
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=7),
 }
 
-DATA_UPLOAD_MAX_NUMBER_FIELDS = 100000000  # higher than the count of fields
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 100000  # higher than the count of fields

@@ -6,14 +6,19 @@ from django.utils import timezone
 
 class Category(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    image = models.ImageField(upload_to='categories_images/')  # Define ImageField
-    title = models.CharField(max_length=255, unique=True)
+    ar_image = models.ImageField(
+        upload_to='categories_images/')  # Define ImageField
+    en_image = models.ImageField(
+        upload_to='categories_images/')  # Define ImageField
+    ar_title = models.CharField(max_length=255, unique=True)
+    en_title = models.CharField(max_length=255, unique=True)
     on_home_screen = models.BooleanField()
     created_at = models.DateField(auto_now=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.title
+        return self.ar_title + " " + self.en_title
 
     class Meta:
         verbose_name_plural = 'Categories'
@@ -21,9 +26,14 @@ class Category(models.Model):
 
 class Product(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    image = models.ImageField(upload_to='product_images/')  # Define ImageField
-    title = models.CharField(max_length=255, unique=True)
-    description = models.CharField(max_length=512)
+    ar_image = models.ImageField(
+        upload_to='product_images/')  # Define ImageField
+    en_image = models.ImageField(
+        upload_to='product_images/')  # Define ImageField
+    ar_title = models.CharField(max_length=255, unique=True)
+    en_title = models.CharField(max_length=255, unique=True)
+    ar_description = models.CharField(max_length=512)
+    en_description = models.CharField(max_length=512)
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
     amount = models.IntegerField()
     price = models.FloatField()
@@ -34,7 +44,8 @@ class Product(models.Model):
     on_banner = models.BooleanField()
     active = models.BooleanField()
     created_at = models.DateTimeField(auto_now=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):
         # Calculate and save the profit before saving the product instance
@@ -48,25 +59,22 @@ class Product(models.Model):
 class Order(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     order_id = models.CharField(max_length=10, unique=True)
-    client = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    client = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     cart = models.JSONField()
     status = models.JSONField()
     created_at = models.DateTimeField(auto_now=True)
-
-    # def save(self, *args, **kwargs):
-    #     # Calculate and save the profit before saving the product instance
-    #     self.price = self.product.price * self.amount
-    #     super().save(*args, **kwargs)
 
 
 class EmployeeOrders(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    employee = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    manager = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='manager')
+    employee = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    manager = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='manager')
     cart = models.JSONField()
     status = models.JSONField()
     created_at = models.DateTimeField(auto_now=True)
-
 
 
 # {
